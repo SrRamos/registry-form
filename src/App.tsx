@@ -6,7 +6,7 @@ function App() {
     <>
       <div className="card">
         <p>
-          Please fill the form to register
+          Complete the form below to sign up
         </p>
         <RegistrationForm />
       </div>

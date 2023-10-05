@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 type UserForm = {
   username: string;
@@ -9,52 +9,35 @@ type UserForm = {
 };
 
 const RegistrationForm = () => {
-  const defaultValues:UserForm = {
-    username: '',
-    firstName: '',
-    lastName: '',
-    email: '',
-    dateBirth: '',
-  };
+  const form = useForm<UserForm>();
+  const { register, handleSubmit } = form;
 
-  const [form, setForm] = useState<UserForm>(defaultValues);
-
-  const handleFormChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setForm((prevValue) => {
-      return {
-        ...prevValue,
-        [event.target.name]: event.target.value,
-      }
-    });
-  };
-
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log({ form });
+  const onFormSubmit: SubmitHandler<UserForm> = (data) => {
+    console.log('Form Submitted. Form Data:', data);
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit(onFormSubmit)} className="form">
+        <div className="form-group">
           <label htmlFor="username">Username</label>
-          <input type="text" name="username" onChange={handleFormChange} />
+          <input type="text" {...register("username")} />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="firstName">First Name</label>
-          <input type="text" name="firstName" onChange={handleFormChange} />
+          <input type="text" {...register("firstName")} />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="lastName">Last Name</label>
-          <input type="text" name="lastName" onChange={handleFormChange} />
+          <input type="text" {...register("lastName")} />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="email">email</label>
-          <input type="email" name="email" onChange={handleFormChange} />
+          <input type="email" {...register("email")} />
         </div>
-        <div>
+        <div className="form-group">
           <label htmlFor="dateBirth">Date of birth</label>
-          <input type="date" name="dateBirth" onChange={handleFormChange} />
+          <input type="date" placeholder="date" {...register("dateBirth")} />
         </div>
 
         <button type="submit">Register</button>
